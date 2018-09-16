@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<!-- define angular app -->
+<html ng-app="app">
+<head>
+    <title>Marlin: Animales Perdidos,Encontrados,Adopcion,Transito Animal.</title>
+    <meta name="description" content="Servicio de búsquedas de animales perdidos, encontrados, adopciones y transito animal.">
+    <meta name="keywords" content="mascotas,animales,animales perdidos, animales encontrados, animales en adopcion,mascotas perdidas, mascotas encontradas, mascotas en adopcion, transito animal,
+                                    gatos en adopcion, perros en adopcion, aves en adopcion,mascotas en adopcion, cachorros en adopcion">
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/styles/commons.css"/>
+    <link rel="stylesheet" href="/styles/gmaps.css"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet"
+          href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="icon" type="image/gif" href="images/logo.png"/>
+    <!-- SPELLS -->
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-1698556575732925",
+            enable_page_level_ads: true
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/bower_components/moment/min/moment.min.js"></script>
+    <script src="/bower_components/cryptojslib/rollups/sha256.js"></script>
+    <script src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/bower_components/emoji-strip/dist/emoji-strip.min.js"></script>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="/script.js"></script>
+    <script src="/dist/built.js"></script>
+    <meta property="fb:app_id" content="132579560762965">
+    <meta property="og:url" content="http://www.marlin.com.ar">
+    <meta property="og:type" content="article">
+    <meta property="og:title"              content="Marlin" >
+    <meta property="og:description"        content="Animales Perdidos,Encontrados,Adopciones,Transito Animal" >
+    <meta property="og:image"              content="http://www.marlin.com.ar/images/fb-logo.jpeg">
+    <meta name="fragment" content="!">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <base href="/">
+</head>
+
+<!-- define angular controller -->
+<body ng-controller="indexController">
+
+
+<!--
+<div id="petBackground" class="semi-opacity">
+
+    <div id="news" class="carousel slide" data-ride="carousel" style="position: fixed">
+
+
+        <!-- Wrapper for slides
+        <div class="carousel-inner " role="listbox">
+            <div class="item active">
+                <img class=" carrousel-img" src="images/carrousel-background1.jpg" alt="carrousel-1">
+            </div>
+
+            <div class="item">
+                <img class="carrousel-img" src="images/carrousel-background2.jpg" alt="carrousel-2">
+            </div>
+            <div class="item">
+                <img class="carrousel-img" src="images/carrousel-background3.jpg" alt="carrousel-3">
+            </div>
+            <div class="item">
+                <img class="carrousel-img" src="images/perro-bosque.jpg" alt="carrousel-4">
+            </div>
+        </div>
+
+
+    </div>
+</div>
+ -->
+<!-- <canvas id="myCanvas">
+</canvas> -->
+<div id="main">
+    <div id="myelem" class="position-absolute">
+        <img id="clid"/></div>
+
+
+    <!--  <nav class="navbar navbar-default" > -->
+    <div class="row background-index-color">
+        <div class="container ">
+            <a href="/"><img class="li-bar"  id="logo" src="images/logo.png" alt="Marlin"></a>
+
+
+
+            <ul class="nav">
+                <li class="float-right" ng-show="notLogIn"><a class="float-right" href="/ingresar" id="login">Ingresar</a></li>
+
+                <li ng-show="notLogIn"><a style="color: moccasin" class="float-right" href="/crear-publicacion" id="create-without-login">Publicar sin usuario</a></li>
+
+                    <div class="dropdown float-right" ng-show="!notLogIn"><i class="fa"> </i>
+                        <div class="dropbtn glyphicon glyphicon-user " data-toggle="dropdown"> {{username}}</div>
+                        <span class="caret"></span>
+                        <ul class="dropdown-menu">
+                            <li><a href="/ajustes-cuenta">Cuenta</a></li>
+                   <!--         <li><a href="/profile/{{username}}">Profile</a></li> -->
+                            <li><a href="/crear-publicacion">Crear publicacion</a></li>
+                            <li><a ng-click="exit()">Cerrar sesion</a></li>
+                        </ul>
+                    </div>
+
+
+        </div>
+    </div>
+        </li>
+        </ul>
+    </div>
+
+</div>
+
+<!--  </nav> -->
+
+
+<ul class=" row ul-bar ">
+    <li class=" col-lg-1"></li>
+
+    <li class="li-bar col-xs-4 col-lg-2 col-md-3"><a class="a-bar" href="noticias">Noticias</a></li>
+    <li class="li-bar col-xs-4 col-lg-2 col-md-3"><a class="a-bar" href="animales-perdidos">Perdidos</a></li>
+
+    <li class="li-bar col-xs-4 col-lg-2 col-md-3"><a class="a-bar" href="animales-encontrados">Encontrados</a></li>
+
+    <li class="li-bar col-xs-6 col-lg-2 col-md-3"><a class="a-bar" href="animales-adopcion">Adopciones</a></li>
+    <li class="li-bar col-xs-6 col-lg-2 col-md-3"><a class="a-bar" href="transito-animal">Transito</a></li>
+    <li class=" col-lg-1"></li>
+
+    <!--
+        <li class="li-bar col-xs-2"><a class="a-bar" href="/donations">Donaciones</a></li>
+        <li class="li-bar col-xs-2"><a class="a-bar" href="/events">Eventos</a></li>
+    -->
+</ul>
+
+<div class="row page-wrap">
+    <div class="col-xs-1">
+    </div>
+    <!-- angular templating -->
+    <!-- this is where content will be injected -->
+    <div ng-view class="col-xs-10">
+
+    </div>
+
+    <div class="col-xs-1"></div>
+
+
+</div>
+<footer class="text-center site-footer margin-top-common ">
+
+    <div class="row">
+        <label for="social-footer"> Encontranos en</label>
+        <div id="social-footer" class="wrapper">
+            <a class="social" href="https://www.facebook.com/MarlinSearch/">&#62220;</a>
+    <!--        <a class="social" href="https://www.twitter.com">&#62217;</a>
+            <a class="social" href="https://www.instagram.com">&#62253;</a>
+            -->
+        </div>
+    </div>
+    </div>
+    <div class="row"><p>Marlin Project 1.0 © 2017</p></div>
+
+</footer>
+
+</div>
+
+
+</body>
+
+</html>

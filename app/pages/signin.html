@@ -1,0 +1,66 @@
+<div>
+    <h1>Registro</h1>
+
+    <div class="row ">
+        <div class="col-xs-4 col-sm-4 col-lg-4"></div>
+        <div class="col-xs-12 col-sm-6 col-lg-6">
+            <label for="fullname">Ingrese su nombre *</label>
+            <input maxlength="64" ng-model="signRequest.fullname" class="form-control" type="text" id="fullname">
+            <label for="username">Ingrese su usuario *</label>
+            <span class="float-right" ng-if="validUser !=null && validUser">Usuario disponible <span
+                    class="glyphicon glyphicon-ok success"></span></span>
+            <span class="float-right" ng-if="validUser !=null && (validUser!='true')">Usuario no disponible<span
+                    class="glyphicon glyphicon-remove error"></span> </span>
+            <input maxlength="32" ng-model="signRequest.username" class="form-control" type="text" id="username" ng-change="validateUser()">
+            <label for="phone">Ingrese su telefono</label>
+            <input maxlength="24" ng-model="signRequest.phone" class="form-control" type="text" id="phone">
+            <label for="mail">Ingrese su mail *</label>
+
+            <span class="float-right" ng-if="validEmail !=null && validEmail">E-mail disponible <span
+                    class="glyphicon glyphicon-ok success"></span></span>
+            <span class="float-right" ng-if="validEmail !=null && (validEmail!='true')">E-mail no disponible<span
+                    class="glyphicon glyphicon-remove error"></span> </span>
+            <input maxlength="32" ng-model="signRequest.mail" class="form-control" type="text" id="mail" ng-change="validateEmail()">
+            <label for="password">Ingrese una contraseña *</label>
+            <span class="float-right" ng-if="signRequest.password.length < 8">Contraseña poco segura  <span
+                    class="glyphicon glyphicon-remove error"></span> </span>
+            <span class="float-right" ng-if="signRequest.password.length >= 8">Contraseña segura <span
+                    class="glyphicon glyphicon-ok success"></span></span>
+            <input maxlength="64" ng-model="signRequest.password" class="form-control" type="password" id="password">
+            <label for="password_confirmed">Ingrese nuevamente su contraseña *</label>
+            <span class="float-right" ng-if="!passwordMatches && confirmedPassword!=null">Las contraseñas no coinciden <span
+                    class="glyphicon glyphicon-remove error"></span></span>
+            <span class="float-right" ng-if="passwordMatches">Las contraseñas coinciden <span class="glyphicon glyphicon-ok success"></span></span>
+            <input maxlength="64" ng-change="validatePassword()" ng-model="confirmedPassword" class="form-control" type="password"
+                   id="password_confirmed">
+
+            </br>
+
+            <label style="color:#555555" for="googleRecaptcha">*: Campos obligatorios</label>
+            <form method="post" action="https://www.google.com/recaptcha/api/siteverify">
+                <div class="g-recaptcha" data-sitekey="6LcDbjoUAAAAAJAV_QUBBa7SRXrhoke0CSpHoNd-"></div>
+            </form>
+            <div id='googleRecaptcha'></div>
+            <script src="https://www.google.com/recaptcha/api.js?onload=callback&render=explicit"></script>
+            </br>
+            <button type="button col-xs-2" ng-click="sendSignInRequest()" class="btn btn-primary">Crear cuenta</button>
+        </div>
+        <div class="col-xs-4"></div>
+
+    </div>
+
+
+</div>
+
+<div class="well center hide" id="pleaseWaitDialog" style="
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #222222;">
+    <h1 style="color:white">Creando cuenta... </h1>
+    <img height="200px" width="300px" alt="loader" src="../images/hamster-loader.gif">
+</div>

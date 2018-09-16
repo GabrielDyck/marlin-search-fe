@@ -1,0 +1,48 @@
+<div>
+    <h1>Ingreso</h1>
+
+
+    <div class="row margin-top">
+        <div class="col-md-4"></div>
+            <div class="col-md-4">
+
+
+
+                </br>
+                <label for="user">Usuario</label>
+                <input maxlength="32" ng-model="loginRequest.user" class="form-control" type="text" id="user"
+                       placeholder="Ingrese su nombre de usuario">
+
+
+                </br>
+                <label for="password">Password</label>
+                <input maxlength="64" ng-model="loginRequest.password" class="form-control" type="password"
+                       id="password"
+                       placeholder="Ingrese su contraseña">
+
+                <a href="recordar-contraseña">¿No recuerdas tu contraseña? Recuperala haciendo click aqui.</a>
+                </br>
+                <a href="registrarse">¿No tienes cuenta? Crea una haciendo click aqui.</a>
+
+                <div class="center" ng-if="loginError">{{loginError}}<span
+                        class="glyphicon glyphicon-remove error"></span></div>
+                <div class="row">
+
+
+                    </br>
+                    <div class="col-xs-5"></div>
+                    <button type="button col-xs-2" class="btn btn-primary"
+                            ng-click="sendLoginRequest()">Acceder
+                    </button>
+                    <div class="col-xs-5"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,42 @@
+#intro-wrap {
+    position: relative;
+    z-index: 1;
+    border-left: 25px solid rgba(0,0,0,.2);
+    width: 200px;
+}
+#contentWrap{
+    background: rgba(0,0,0,.8);
+    padding: 15px 40px 25px 30px;
+}
+
+#intro-wrap h1 {
+    font-family: "PT Sans Narrow";
+    font-size: 25px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 0px !important;
+    padding-bottom: 10px;
+}
+
+#intro-wrap p {
+    line-height: 19px;
+    color: #999;
+}
+.open-intro,
+.close-intro {
+    position:absolute;
+    left:200px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    z-index: 50;
+    padding-left:15px;
+}
+.open-intro {
+    display: none;
+    background: yellow
+}
+.close-intro {
+    background: red;
+}
+

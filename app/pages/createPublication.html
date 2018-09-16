@@ -1,0 +1,323 @@
+<script type="text/javascript">
+    (function (window) {
+        function triggerCallback(e, callback) {
+            if (!callback || typeof callback !== 'function') {
+                return;
+            }
+            var files;
+            if (e.dataTransfer) {
+                files = e.dataTransfer.files;
+            } else if (e.target) {
+                files = e.target.files;
+            }
+            callback.call(null, files);
+        }
+
+        function makeDroppable(ele, callback) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('multiple', true);
+            input.style.display = 'none';
+            input.addEventListener('change', function (e) {
+                triggerCallback(e, callback);
+            });
+            ele.appendChild(input);
+
+            ele.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                ele.classList.add('dragover');
+            });
+
+            ele.addEventListener('dragleave', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                ele.classList.remove('dragover');
+            });
+
+            ele.addEventListener('drop', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                ele.classList.remove('dragover');
+                triggerCallback(e, callback);
+            });
+
+            ele.addEventListener('click', function () {
+                input.value = null;
+                input.click();
+            });
+        }
+
+        window.makeDroppable = makeDroppable;
+    })(this);
+    (function (win) {
+        makeDroppable(win.document.querySelector('.demo-droppable'), function (files) {
+            console.log(files);
+
+
+            var output = document.querySelector('.output');
+            output.innerHTML = '';
+            window.files = [];
+            var readerList = [];
+
+            for (var i = 0; i < files.length; i++) {
+                if (i === 3) {
+                    $.notify("Solo se permiten 3(tres) imagenes.", "info");
+
+                    return;
+                }
+                if (files[i].type.indexOf('image/') === 0) {
+                    //if (files[i].size > 1024 * 1024 * 1) {
+                    //    $.notify(files[i].name + " debe ser menor a 1MB", "error");
+                    //} else {
+                    readerList[i] = new FileReader();
+                    output.innerHTML += ' <img width="150" alt=publicacion"'+i+'+" src="' + URL.createObjectURL(files[i]) + '" />';
+                    readerList[i].readAsDataURL(files[i]);
+
+                    readerList.forEach(function (reader) {
+
+                            reader.onload = function () {
+                                window.files.push(reader.result);
+                                console.log(window.files);
+
+                            }
+                        }
+                    );
+
+                    // }
+                    console.log(window.files);
+                }
+            }
+        });
+    })(this);
+</script>
+
+<div>
+    <span ng-show="!isCreateWithUser()" class="error">Al publicar sin usuario no podra editar la publicacion luego de su creacion y la misma se borrara transcurridos 30 dias</span>
+    <h1 >Publicar: {{publication.type}}</h1>
+
+    <div class="row ">
+
+
+        <div class="col-lg-8 col-xs-12">
+            <div class="row">
+                <div class="col-lg-9">
+                    <label class="span-describe"   for="title">Titulo de la publicacion</label><span class="error">*</span>
+                    <input maxlength="64" ng-model="publication.title" id="title" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="row margin-top-common">
+
+            </div>
+
+            <div class="row">
+                <div class="demo-droppable center margin-common">
+                    <div class="output ">
+                        <img src="../images/image_placeholder.jpg" alt="publication_placeholder">
+                    </div>
+                    <p>Drag files here or click to upload</p>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-xs-12 col-md-12 col-lg-12">
+                    <label class="span-describe"  for="type">Tipo de publicacion</label><span class="error">*</span>
+                    <select class="form-control" id="type" ng-model="publication.type"
+                            ng-options="name for (code,name) in publicationTypes">
+                        <option value="">Seleccion el tipo de publicacion</option>
+                    </select>
+                </div>
+
+
+                <div class="ui-widget">
+                    <div class="col-xs-12 col-md-6 col-lg-6">
+                        <label class="span-describe"  for="pet-class">Clase</label><span class="error">*</span>
+                        <input maxlength="32" id="pet-class" class="form-control" type="text" placeholder="Ej: Perro"
+                               ng-model="publication.petClass" ng-change="changeBreed()">
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-md-6 col-lg-6">
+                    <label class="span-describe"  for="pet-breed">Raza</label>
+                    <input maxlength="32" id="pet-breed" class="form-control" disabled type="text"
+                           placeholder="Ej: Pastor Aleman"
+                           ng-model="publication.petBreed">
+                </div>
+
+                <div class="col-xs-12 col-md-3 col-lg-3">
+                    <label class="span-describe" for="pet-name">Nombre del animal</label>
+                    <input maxlength="32" id="pet-name" class="form-control" type="text"
+                           placeholder="Ej: Coraje"
+                           ng-model="publication.petName">
+                </div>
+                <div class="form-group col-xs-12 col-md-3 col-lg-3">
+                    <label class="span-describe"  for="size">Tamaño</label>
+                    <select class="form-control" id="size" ng-model="publication.size"
+                            ng-options="name for (code,name) in animalSizes">
+                        <option value="">Seleccion el tamaño</option>
+                    </select>
+                </div>
+                <div class="form-group col-xs-12 col-md-3 col-lg-3">
+                    <label class="span-describe"  for="gender">Genero</label>
+                    <select class="form-control" id="gender" ng-model="publication.gender"
+                            ng-options="name for (code,name) in animalGenders">
+                        <option value="">Seleccion el genero</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-md-3 col-lg-3">
+                    <label class="span-describe" for="pet-color">Color del animal</label>
+                    <input maxlength="32" id="pet-color" class="form-control" type="text"
+                           placeholder="Ej: Marron; Negro con manchas blancas"
+                           ng-model="publication.color">
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-12">
+                    <label class="span-describe"  for="title">Descripcion</label> <span class="error">*</span>
+                    <textarea maxlength="1500" id="description" class="form-control" ng-model="publication.description"
+                              rows="7"
+                              cols="60"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-4 col-xs-12">
+            <div class="row card-tag">
+                <h4>Informacion de contacto</h4>
+                <hr>
+                <div>
+                    <label class="span-describe"  for="contactName">Nombre</label>
+                    <input maxlength="64" ng-model="publication.contactName" id="contactName" class="form-control"
+                           type="text">
+                </div>
+
+                <div>
+                    <label class="span-describe"  for="phone">Telefono</label>
+                    <input maxlength="32" ng-model="publication.phone" id="phone" class="form-control" type="text">
+                </div>
+
+                <div>
+                    <label class="span-describe"  for="email">E-mail</label>
+                    <input maxlength="32" ng-model="publication.email" id="email" class="form-control" type="text">
+                </div>
+            </div>
+            <div class=" row card-tag margin-top-common">
+                <label class="span-describe" for="pac-input">Ingrese la ubicacion <span class="error">*</span></label>
+                <input id="pac-input" class="controls" type="text" placeholder="Search Box" >
+                <div id="map"></div>
+                <script>
+                    // This example adds a search box to a map, using the Google Place Autocomplete
+                    // feature. People can enter geographical searches. The search box will return a
+                    // pick list containing a mix of places and predicted search terms.
+
+                    // This example requires the Places library. Include the libraries=places
+                    // parameter when you first load the API. For example:
+                    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+                    function initAutocomplete() {
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                            center: {lat: -33.8688, lng: 151.2195},
+                            zoom: 13,
+                            mapTypeId: 'roadmap'
+                        });
+
+                        // Create the search box and link it to the UI element.
+                        var input = document.getElementById('pac-input');
+                        var searchBox = new google.maps.places.SearchBox(input);
+                        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+                        // Bias the SearchBox results towards current map's viewport.
+                        map.addListener('bounds_changed', function () {
+                            searchBox.setBounds(map.getBounds());
+                        });
+
+                        var markers = [];
+                        // Listen for the event fired when the user selects a prediction and retrieve
+                        // more details for that place.
+                        searchBox.addListener('places_changed', function () {
+                            var places = searchBox.getPlaces();
+                            window.places = places;
+
+                            if (places.length == 0) {
+                                return;
+                            }
+
+                            // Clear out the old markers.
+                            markers.forEach(function (marker) {
+                                marker.setMap(null);
+                            });
+                            markers = [];
+
+                            // For each place, get the icon, name and location.
+                            var bounds = new google.maps.LatLngBounds();
+                            places.forEach(function (place) {
+                                if (!place.geometry) {
+                                    console.log("Returned place contains no geometry");
+                                    return;
+                                }
+                                var icon = {
+                                    url: place.icon,
+                                    size: new google.maps.Size(71, 71),
+                                    origin: new google.maps.Point(0, 0),
+                                    anchor: new google.maps.Point(17, 34),
+                                    scaledSize: new google.maps.Size(25, 25)
+                                };
+
+                                // Create a marker for each place.
+                                markers.push(new google.maps.Marker({
+                                    map: map,
+                                    icon: icon,
+                                    title: place.name,
+                                    position: place.geometry.location
+                                }));
+
+                                if (place.geometry.viewport) {
+                                    // Only geocodes have viewport.
+                                    bounds.union(place.geometry.viewport);
+                                } else {
+                                    bounds.extend(place.geometry.location);
+                                }
+                            });
+                            map.fitBounds(bounds);
+
+                        });
+                        var center = new google.maps.LatLng(-36.3372396, -66.8413335);
+                        map.setCenter(center);
+                        map.setZoom(4);
+                    }
+
+                </script>
+
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYTGDzYzyRVliXU2q-WRcP_fmnEmSKO8Y&libraries=places&callback=initAutocomplete"
+                        async defer></script>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button id="publish-button" type="button" class="btn btn-success center centered margin-top"
+                ng-click="createPublication()">
+            Crear Publicacion
+        </button>
+    </div>
+</div>
+
+<div class="well center hide" id="pleaseWaitDialog" style="
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #222222;">
+    <h1 style="color:white">Creando publicacion... </h1>
+    <img alt="loader" height="200px" width="300px" src="../images/hamster-loader.gif">
+</div>

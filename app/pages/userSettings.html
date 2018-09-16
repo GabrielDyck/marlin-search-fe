@@ -1,0 +1,329 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYTGDzYzyRVliXU2q-WRcP_fmnEmSKO8Y&libraries=places,geometry&callback=initAutocomplete"
+        async defer></script>
+<div class="row">
+    <div class="col-lg-3 col-xs-12 well margin-top">
+        <label for="settings">Configuracion</label>
+        <ul id="settings" class="nav " style="list-style-type:none">
+            <li id="PROFILE" class="active col-lg-12 col-xs-6" ng-click="selectActiveSettingType('PROFILE')">
+                <a>Perfil</a>
+            </li>
+            <li id="ACCOUNT" class="col-lg-12 col-xs-6" ng-click="selectActiveSettingType('ACCOUNT')">
+                <a>Cuenta</a>
+            </li>
+            <li id="PUBLICATIONS" class="col-lg-12 col-xs-6" ng-click="selectActiveSettingType('PUBLICATIONS')">
+                <a>Publicaciones</a>
+            </li>
+            <li id="PETS" class="col-lg-12 col-xs-6" ng-click="selectActiveSettingType('ANIMAL_TRANSIT'); ">
+                <a>Transito Animal</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-xs-12 col-lg-8">
+
+        <div class="row" ng-show="show('ACCOUNT')">
+            <div class="row">
+                <h3>Cuenta</h3>
+
+                <div class=" col-xs-12 col-sm-3 col-lg-3">
+                    <label for="oldPassword" class="control-label">Contraseña actual</label>
+                    <input maxlength="64" type="password" id="oldPassword" class="form-control"
+                           ng-model="changePasswordRequest.oldPassword">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-lg-3">
+                    <label for="newPassword" class="control-label">Contraseña nueva</label>
+                    <input maxlength="64" type="password" id="newPassword" class="form-control"
+                           ng-model="changePasswordRequest.newPassword">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-lg-3 ">
+                    <label for="newPasswordConfirmed" class="control-label">Confirmar nueva contraseña</label>
+                    <input maxlength="64" type="password" id="newPasswordConfirmed" class="form-control"
+                           ng-model="newPasswordConfirm">
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="margin-common form-groupcol-xs-3 col-sm-3 col-lg-3">
+                    <button type="button" class="btn btn-primary margin-common" ng-click="changePassword()">Cambiar
+                        contraseña
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" ng-show="show('PROFILE')">
+            <div class="col-xs-12 col-lg-12">
+                <h3>Perfil</h3>
+
+                <div class=" center ">
+                    <!--    <label for="profile-photo">Foto de Perfil</label>
+                        <div class="row">
+                            <div id="profile-photo">
+                                <img src="../images/image_placeholder.jpg" id="photo-profile" class="border-radius"
+                                     width="200px" height="200px">
+                            </div>
+                            <div class="row margin-common">
+                                <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
+                                <form id="profileImageForm" target="dummyframe"
+                                      action="http://35.196.175.6:8080/user/save-image" method="post"
+                                      enctype="multipart/form-data">
+
+
+                                    <input type="file" accept="image/*" name="file" fileread="editUser.photo"
+                                           class="btn btn-default center centered">
+                                    <input ng-if="changeProfileImage()">
+                                    <input type="text" ng-value="getAccessToken()" name="accessToken" hidden>
+                                    <input type="text" ng-value="getUsername()" name="username" hidden>
+                                    <input type="submit" class="btn btn-primary margin-common" value="Change profile photo">
+                                </form>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="col-xs-12 col-lg-12">
+
+                    <div class="row">
+                        <div class="margin-common form-group col-xs-12 col-sm-12 col-lg-12">
+                            <label for="fullname" class="control-label">Name</label>
+                            <input maxlength="64" type="text" id="fullname" class="form-control"
+                                   ng-model="editUser.fullname">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="margin-common form-group col-xs-12 col-sm-12 col-lg-12">
+                            <label for="bio" class="control-label">Bio</label>
+                            <textarea maxlength="140" id="bio" class="form-control" ng-model="editUser.biography"
+                                      placeholder=" Tell a little about you!"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="margin-common form-group col-xs-12 col-sm-12 col-lg-12">
+                            <label for="location" class="control-label">Localizacion</label>
+                            <input maxlength="55" type="text" id="location" ng-model="editUser.location"
+                                   class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  center centered inline-block">
+                    <button type="button" class="btn btn-primary margin-common" ng-click="updateProfile()">
+                        Actualizar perfil
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row" ng-show="show('PUBLICATIONS')">
+            <h3>Publicaciones</h3>
+
+
+            <div class="row center centered">
+
+                <ul ng-repeat="publication in userPublications track by $index">
+                    <li><a href="{{redirectToPublication(publication.id)}}"> {{publication.title}}</a>. Creada el
+                        {{parseDate(publication.creationDate)}}
+                    </li>
+                </ul>
+
+            </div>
+
+
+        </div>
+        <div class="row " ng-show="show('ANIMAL_TRANSIT'); ">
+            <div class="row">
+                <h3>Transito Animal: #{{animalTransit.id}}</h3>
+                <h6 class="error">Observacion: Bajo su responsabilidad</h6>
+
+                <div class=" col-xs-12 col-sm-12  col-md-2 col-lg-2">
+                    <label for="contact_name" class="control-label">Nombre</label> <span class="error">*</span>
+                    <input maxlength="64" type="text" id="contact_name" class="form-control"
+                           ng-model="animalTransit.contactName">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                    <label for="phone" class="control-label">Telefono</label> <span class="error">*</span>
+                    <input maxlength="24" type="text" id="phone" class="form-control"
+                           ng-model="animalTransit.phone">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                    <label for="mail" class="control-label">Mail</label>
+                    <input maxlength="32" type="text" id="mail" class="form-control" ng-model="animalTransit.mail">
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+            <div class="row">
+                <div class=" col-xs-12 col-sm-12 col-md-8 col-lg-8">
+
+                    <div ng-repeat="transit in animalTransit.transitTypes" class="well">
+                        <span class="float-right" ng-click="removeTransitType($index)">X</span>
+                        <div class="row">
+                            <div class="ui-widget">
+                                <div class="col-xs-6 col-sm-2 col-md-2 col-lg-3">
+                                    <label for="pet-class{{$index}}">Clase</label><span class="error">*</span>
+                                    <input id="pet-class{{$index}}" class="form-control pet-class" type="select"
+                                           placeholder="Ej: Perro"
+                                           ng-model="transit.animalType" ng-change="animalTypeAutocomplete();"
+                                           ng-init="animalTypeAutocomplete()">
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-12 col-md-3 col-lg-3">
+                                <label for="pet-breed{{$index}}">Raza</label>
+                                <input id="pet-breed{{$index}}" class="form-control"
+                                       ng-disabled="!validateField(transit.animalType)"
+                                       ng-mouseenter="changeBreed($index)" type="text"
+                                       placeholder="Ej: Pastor Aleman"
+                                       ng-model="transit.animalBreed">
+                            </div>
+
+
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <label for="publication-status">Edad</label>
+                                <select id="publication-status" type="select" class="form-control"
+                                        placeholder="Ej: Adulto"
+                                        ng-model="transit.animalAge"
+                                        ng-options="name for (code,name) in animalAges">
+                                    <option selected value> Seleccione una edad</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2"></div>
+                            <div class="col-xs-12">
+                                <label for="description">Descripcion</label> <span class="error">*</span>
+                                <textarea maxlength="1500" id="description" class="form-control"
+                                          ng-model="transit.description"
+                                          rows="7"
+                                          cols="60"></textarea>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="well" ng-show="animalTransit.transitTypes.length<3"
+                             ng-click="createTransitType()"> +
+                        </div>
+                    </div>
+
+                </div>
+                <div class=" col-xs-12 col-sm-3 col-md-4 col-lg-4">
+                    <label for="pet-location-input">Su ubicacion </label> <span class="error">*</span>
+                    <input id="pet-location-input" class="form-control" type="select"
+                           placeholder="Ej: San Miguel, Buenos Aires, Argentina" ng-keypress="cleanRange()"/>
+
+                    <div id="map"></div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="row ">
+                <div class="margin-common form-groupcol-xs-3 col-sm-3 col-lg-3">
+                    <button type="button" class="btn btn-primary margin-common" ng-click="createHomeTransit()">
+                        Postularse
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<script>
+
+    function initAutocomplete() {
+        var center;
+        var marker;
+        var access = localStorage.getItem('accessToken').split("-");
+
+        var input = document.getElementById('pet-location-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        searchBox.addListener('places_changed', function () {
+            $('#contentWrap').removeClass("hide");
+            $('#max-range').attr("disabled", false);
+
+
+            var places = searchBox.getPlaces();
+
+
+            if (places.length == 0) {
+                return;
+            } else {
+                window.places = places;
+                console.log(places);
+                console.log(places[0].geometry.location.lat());
+                console.log(places[0].geometry.location.lng());
+            }
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: places[0].geometry.location.lat(), lng: places[0].geometry.location.lng()},
+                zoom: 13,
+                mapTypeId: 'roadmap'
+            });
+
+            var marker = new google.maps.Marker({
+                position: {lat: places[0].geometry.location.lat(), lng: places[0].geometry.location.lng()},
+                map: map
+            });
+
+            window.markerCenter = marker;
+            google.maps.event.trigger(map, 'resize');
+            window.map = map;
+
+
+        });
+        $.ajax({
+            url: "http://www.marlin.com.ar/node-proxy/transit/location",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                user: access[0],
+                accessToken: access[1]
+            }),
+            type: "POST",
+            success: function (response) {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 14,
+                    mapTypeId: 'roadmap'
+                });
+                console.log(response);
+                marker = new google.maps.Marker({
+                    position: {lat: response.latitude, lng: response.longitude},
+                    map: map
+                });
+                center = marker.position;
+
+
+                map.setCenter(center);
+
+
+            },
+            error: function () {
+
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 0, lng: 0},
+                    zoom: 1,
+                    mapTypeId: 'roadmap'
+                });
+                ;
+
+
+            }
+        });
+
+
+    }
+    ;</script>

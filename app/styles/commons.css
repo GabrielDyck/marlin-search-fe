@@ -1,0 +1,365 @@
+@import url('http://weloveiconfonts.com/api/?family=entypo');
+
+#logo {
+    margin-top: 5px;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+}
+
+.span-describe{
+    color:#7D1935; !important;
+    font-size: 17px;
+}
+
+.semi-opacity {
+    opacity: 0.45;
+}
+
+#home:hover, #about:hover, #contact:hover {
+    opacity: 0.9;
+    background-color: transparent;
+    color: white;
+}
+
+p {
+    word-break: break-all;
+    white-space: normal;
+}
+
+canvas, #petBackground {
+    position: absolute;
+}
+
+.background-index-color {
+    background-color: #7D1935;
+}
+
+.primary-color{
+    color: #7D1935;
+}
+
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+
+.separator {
+    margin-left: 10px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.ul-bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #585858;
+}
+
+.li-bar {
+    float: left;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+#sign-in:hover,#login:hover,#create-without-login:hover{
+    color:white;
+    background: url("../images/Paws.png");
+
+
+}
+
+#sign-in,#login,#create-without-login{
+    font-size: 20px;
+    background: none;
+    color:white;
+
+}
+.a-bar {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.a-bar:hover, .a-bar:focus{
+    color: white;
+    background: url("../images/Paws.png");
+    background-position: center;
+}
+
+.login-image {
+    width: 25%;
+    height: 25%;
+. center;
+}
+
+.margin-top {
+    margin-top: 2%;
+}
+
+.center {
+    text-align: center;
+    horiz-align: center;
+}
+
+
+.carousel-inner > .item > img {
+    margin: 0 auto;
+}
+
+.carrousel-img {
+    width: 100vw;
+    min-height: 100vh;
+
+}
+.position-absolute{
+    position: absolute;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropbtn {
+    position: relative;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px orange;
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+
+    cursor: pointer;
+    opacity: 0.9;
+    color: orange;
+    background-color: #111;
+    padding: 12px 16px;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: orange
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    cursor: pointer;
+
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    opacity: 0.9;
+
+
+    cursor: pointer;
+
+}
+
+.card-tag{
+    padding:10px 10px 10px 10px;
+    background-color: whitesmoke;
+    color: black;
+    border-radius: 5px;
+    display: block;
+}
+
+
+.social {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin: 0 10px 10px 10px;
+    font-family: Entypo;
+    font-size: 28px;
+    text-align: center;
+    color: #555;
+    cursor: pointer;
+    position: relative;
+}
+
+.social:hover{
+    color:white;
+}
+body{
+    overflow-x:hidden;
+
+}
+*{
+    font-family:"Open Sans";
+    font-weight: bold;
+}
+.footer-bottom {
+    clear: none;
+opacity: 0.9;
+    background: black;
+    color: White;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: normal;
+    margin: 0;
+    bottom: 0px;
+    width: 100%;
+}
+
+
+.table-setting{
+    background-color: darkgrey;
+}
+
+.vertical-middle-ext{
+    display: table;
+    width:100%;
+}
+
+
+.vertical-middle-int{
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.margin-common {
+    margin: 5px 5px 5px 5px;
+}
+
+.display-none{
+    display: none;
+}
+.border-radius{
+    border-radius: 5px;
+}
+
+
+a{
+    color: white;
+}
+
+
+.page-wrap {
+    min-height: 70vh;
+}
+.page-wrap:after {
+    content: "";
+    display: block;
+}
+.site-footer, .page-wrap:after {
+    height: 142px;
+}
+.site-footer {
+
+    color: white;
+    background: black;
+}
+
+.border-style{
+    box-shadow: 0px 8px 16px 0px black;
+    border-color: #93a1a1;
+}
+
+.margin-top-common{
+    margin-top: 10px;
+}
+
+.demo-droppable {
+    border-width: 5px;
+    border-style: dotted;
+    border-color: black;
+    opacity: 0.9;
+    padding: 10px;
+    background: darkgrey;
+    color: #fff;
+    text-align: center;
+}
+.demo-droppable.dragover {
+    background: #00CC71;
+}
+
+.dropeable-height{
+    paddin: 100px;
+}
+
+img{
+    opacity: 1;
+}
+
+#pet-location-input {
+    background-color: #fff;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+}
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+#map-popover{
+    height: 200px;
+    width: 200px;
+}
+
+
+.well{
+    opacity: 0.9;
+}
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+}
+
+
+.page-content{
+    background: #eee;
+    display: inline-block;
+    padding: 10px;
+    width: 100%;
+    max-width: 660px;
+}
+
+.centered{
+   display:table; !important;
+    margin:0px auto 0px auto; !important;
+}

@@ -1,0 +1,220 @@
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId            : '132579560762965',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v2.11'
+        });
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                console.log('Logged in.');
+            }
+            else {
+                console.log('Not logger in.');
+            }
+        });
+
+
+        document.getElementById('shareBtn').onclick = function () {
+            var hashtags= "#" + window.publication.type +window.publication.petClass  ;
+            FB.ui({
+                method: 'share',
+                display: 'popup',
+                quote: window.publication.description,
+                href: window.location.href ,
+                hashtag:hashtags
+            }, function (response) {
+            });
+        }
+
+
+    };
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/es_LA/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+</script>
+<div>
+    <div class="row well">
+
+        <div class="col-xs-12 col-lg-8 ">
+                        <span class="float-right" ng-show="isAuthotized" ng-click="editPublication()">Editar <span
+                                class="glyphicon glyphicon-cog"></span> </span>
+            <div id="shareBtn"
+                 class="btn btn-primary clearfix center">Compartir en Facebook</div>
+            <div class="row  margin-top">
+
+                <h1 id="title " class="center"> {{publication.title}} </h1>
+                <div class="row margin-top-common">
+
+                </div>
+
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner center" style="display: block;
+                    margin-left: 25%;
+     max-width: 50%;
+        ">
+                        <img id="placeholder-img"  src="../images/image_placeholder.jpg" alt="{{publication.title}}">
+
+                        <div class="item carousel-inner" ng-class="{active:!$index}"
+                             ng-repeat="image in publication.images" ng-init="showPlaceHolder()">
+
+                            <img src="{{'data:image/jpeg;base64,' + image}}" alt="{{publication.title}}">
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" data-target="#myCarousel" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" data-target="#myCarousel" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+
+                <div class="row">
+                    <div><span class="span-describe">Nombre:</span> {{publication.petName}}</div>
+                    <div><span class="span-describe">Clase:</span> {{publication.petClass}}</div>
+                    <div><span class="span-describe">Raza:</span> {{publication.petBreed}}</div>
+                    <div><span class="span-describe">Color:</span> {{publication.color}}</div>
+                    <div><span class="span-describe">Tamaño:</span> {{publication.size}}</div>
+                    <div><span class="span-describe">Sexo:</span> {{publication.gender}}</div>
+
+
+
+                </div>
+                <div class="row">
+
+                    <span class="span-describe">Descripcion:</span>
+                    <div class=" center" style="text-overflow: ellipsis"> <p> {{publication.description}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-lg-1">
+        </div>
+
+        <div class="col-xs-12 col-lg-3">
+
+            <div class=" row  margin-top-common">
+
+
+            <div><span class="span-describe">Ocurrio en:</span> {{publication.stringLocation}}</div>
+                <hr>
+                <div id="map"></div>
+                <script>
+                    function init() {
+                        var absoluteUrl = window.location.href.split('/');
+                        var center;
+                        var publicationId = absoluteUrl[absoluteUrl.length - 1];
+                        var marker;
+                        $.ajax({
+                            url: "http://www.marlin.com.ar/node-proxy/publication/location",
+                            data: {id: publicationId},
+                            success: function (response) {
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                    zoom: 14,
+                                    mapTypeId: 'roadmap'
+                                });
+                                window.searchDetail = response;
+                                console.log(response);
+                                console.log("html")
+                                marker = new google.maps.Marker({
+                                    position: {lat: response.location.latitude, lng: response.location.longitude},
+                                    map: map
+                                });
+                                center = marker.position;
+
+
+                                map.setCenter(center);
+
+
+                            }
+                        });
+
+
+                    }
+
+
+                </script>
+
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYTGDzYzyRVliXU2q-WRcP_fmnEmSKO8Y&libraries=places&callback=init"
+                        async defer></script>
+            </div>
+
+            <div class="row  margin-top">
+                <h4 class="span-describe">Informacion de contacto</h4>
+                <hr>
+                <div>
+                    <span class="span-describe">Nombre: </span>{{publication.contactName}}
+                </div>
+
+                <div>
+                    <span class="span-describe">Telefono: </span>{{publication.phone}}
+                </div>
+
+                <div>
+
+                    <span class="span-describe">Email: </span>{{publication.email}}
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="col-md-12 col-xs-12 col-lg-12">
+        <div class="row">
+            <div ng-repeat="comment in publication.comments" class=" form-group well row">
+
+                <div class="margin-top   form-group">
+
+                    <div>
+                        <h5>{{comment.userName}}</h5>
+                        <h6>Fecha de publicacion: {{parseDate(comment.creationDate)}}</h6>
+
+                    </div>
+                    <p>{{comment.content}}</p>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="margin-top  well">
+            <h4><strong>Escribir un comentario</strong></h4>
+            <div class="row">
+                <label class="span-describe" for="name">Ingrese su nombre:</label>
+                <input class="form-control" id="name" type="text" ng-model="name">
+            </div>
+
+            <div class="row">
+                <label class="span-describe" for="comment">Agregar comentario:</label>
+                <textarea id="comment" class="form-control" ng-model="comment"
+                          placeholder=" Deja tu un comentario"></textarea>
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-success float-right margin-common" ng-click="createComment()"> Publicar</button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

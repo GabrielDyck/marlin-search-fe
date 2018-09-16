@@ -1,0 +1,342 @@
+<div id="controller">
+    <h1>{{title}}</h1>
+    <div class="row">
+        <div>
+            <div class="well">
+                <div class="row">
+
+                    <div class="col-xs-6 col-sm-3 col-lg-3">
+                        <label for="id_publish">ID Publicacion</label>
+                        <input id="id_publish" class="form-control" placeholder="Ej:185327"
+                               ng-model="request.publicationId"
+                               ng-change="cleanRequireds()"/>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-3 col-lg-3">
+                        <label for="pet_name">Nombre</label>
+                        <input id="pet_name" class="form-control" placeholder="Ej: Coraje" ng-model="request.petName"/>
+                    </div>
+
+                    <div class="ui-widget">
+                        <div class="col-xs-6 col-sm-2 col-lg-2">
+                            <label for="pet-class">Clase</label>
+                            <input id="pet-class" class="form-control" type="select" placeholder="Ej: Perro"
+                                   ng-model="request.petClass" ng-change="changeBreed()">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-2 col-lg-2">
+                        <label for="pet-breed">Raza</label>
+                        <input id="pet-breed" class="form-control" disabled type="text" placeholder="Ej: Pastor Aleman"
+                               ng-model="request.petBreed">
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                        <label for="publication-status">Estado Publicacion</label>
+                        <select id="publication-status" type="select" class="form-control" placeholder="Ej: OPEN"
+                                ng-model="request.publicationStatus"
+                                ng-options="name for (code,name) in publicationStatuses">
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-3 col-lg-3">
+                        <!-- <a id="id-popover" data-placement="left"class="glyphicon glyphicon-map-marker" rel="popover" data-content="" title="Gmap Location"></a>
+                        -->
+
+                        <label for="pet-location-input">Localizacion </label> <span class="error"
+                                                                                    ng-show="locationRequired">*</span>
+                        <input id="pet-location-input" class="form-control" type="select"
+                               placeholder="Ej: San Miguel, Buenos Aires, Argentina"
+
+                        >
+                    </div>
+
+                    <div class="col-xs-12 col-sm-3 col-lg-3">
+                        <label for="max-range">Rango(metro) </label>
+                        <input id="max-range" class="form-control" type="number" min="0" max="10000"
+                               placeholder="Ej: 500" ng-model="request.range" ng-change="drawRange()">
+                    </div>
+
+
+                    <div class='col-xs-12 col-sm-3 col-lg-3'>
+                        <div class="form-group">
+                            <label for="datePickerDesde">Desde</label>
+                            <div class='input-group date' id='datePickerDesde'>
+                                <input id="date-from" type='text' class="form-control" data-date-format="DD/MM/YYYY"
+                                       placeholder="Ej: DD/MM/AAAA" ng-model="request.dateFrom"/>
+                                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-3 col-lg-3'>
+                        <div class="form-group ">
+                            <label for="datePickerHasta">Hasta</label>
+                            <div class='input-group date' id='datePickerHasta'>
+                                <input id="date-to" type='text' class="form-control" data-date-format="DD/MM/YYYY"
+                                       placeholder="Ej: DD/MM/AAAA" ng-model="request.dateTo"/>
+                                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="intro-wrap">
+                    <div class="open-intro center "><span class="glyphicon glyphicon-chevron-down"></span></div>
+
+                    <div id="contentWrap" class="">
+                        <div class="row">
+
+                            <div class="col-xs-12  col-md-6 col-sm-6 col-lg-6">
+
+
+                                <div id="map"></div>
+                            </div>
+
+                            <div class="col-xs-12  col-md-6 col-sm-6 col-lg-6">
+                                </br>
+                                <button type="button"
+                                        class="col-xs-12 col-md-6 col-sm-6 col-lg-3 btn btn-success float-right margin-common"
+                                        ng-click="search('button')">
+                                    Buscar
+                                </button>
+                                <button type="button"
+                                        class="col-xs-12  col-md-6 col-sm-6 col-lg-3 btn btn-primary float-right margin-common"
+                                        ng-click="init()">Reset
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div class="close-intro center"><span class="glyphicon glyphicon-chevron-up"></span></div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="center centered ">
+                <ul id="pagination-top"  class="pagination-md"></ul>
+            </div>
+
+            <div class="row" ng-if="searchResponse">
+                <div ng-repeat="item in searchResponse">
+
+
+                    <a class=" well col-xs-12 col-lg-12" target="_blank"
+                       href="http://www.marlin.com.ar/publicacion/{{item.id}}">
+
+                        <div class="col-xs-12 col-lg-3">
+                            <img height="270px" width="100%"
+                                 ng-src=" {{item.images[0]==null? '../images/image_placeholder.jpg':'data:image/jpeg;base64,' + item.images[0]}}"
+                                 alt="{{item.title}}">
+                        </div>
+                        <div class="col-xs-12 col-lg-9">
+
+                            <ul style="list-style-type:none; padding:0px;">
+                                <li><span class="span-describe">ID:</span> {{item.id}}</li>
+                                <li><span class="span-describe">Titulo:</span> {{item.title}}</li>
+                            </ul>
+                            <div class="col-xs-6 col-lg-6">
+                                <ul style="list-style-type:none; padding:0px;">
+                                    <div><span class="span-describe">Nombre:</span> {{item.petName}}</div>
+                                    <li><span class="span-describe">Clase:</span> {{item.petClass}}</li>
+                                    <li><span class="span-describe">Raza:</span> {{item.petBreed}}</li>
+                                    <li><span class="span-describe">Color:</span> {{item.color}}</li>
+                                    <li><span class="span-describe">Tamaño:</span> {{item.size}}</li>
+                                    <li><span class="span-describe">Sexo:</span> {{item.gender}}</li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-6 col-lg-6">
+                                <ul style="list-style-type:none; padding:0px;">
+                                    <li><span class="span-describe">Contacto:</span> {{item.contactName}}</li>
+                                    <li><span class="span-describe">Telefono:</span> {{item.phone}}</li>
+                                    <li><span class="span-describe">Ubicacion:</span> {{item.stringLocation}}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </a>
+
+
+                </div>
+            </div>
+            <div class="center centered ">
+                <ul id="pagination-bottom"  class="pagination-md"></ul>
+            </div>
+        </div>
+        <div class="col-xs-1"></div>
+    </div>
+</div>
+
+
+<script>
+
+    function initAutocomplete() {
+        var location= JSON.parse(localStorage.getItem("location"));
+
+        var input = document.getElementById('pet-location-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        console.log(searchBox);
+
+
+        var getLocation= function (location) {
+
+            var crd = {latitude: location.location.lat, longitude: location.location.lng};
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + crd.latitude + "," + crd.longitude + "&key=AIzaSyCb9ZTm2j5IewfXtxRt0_mOUQ6WoiHw_zY";
+            $.ajax({
+                url: url
+            }).done(function (response) {
+                console.log(response);
+                $("#pet-location-input").val(response.results[0].formatted_address);
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: crd.latitude, lng: crd.longitude},
+                    zoom: 13,
+                    mapTypeId: 'roadmap'
+                });
+
+                var marker = new google.maps.Marker({
+                    position: {lat: crd.latitude, lng: crd.longitude},
+                    map: map
+                });
+                window.map = map;
+                window.markerCenter = marker;
+                $('#max-range').attr("disabled", false);
+                $('#max-range').val(1000);
+                var scope = angular.element("#max-range").scope();
+                scope.request.range=1000;
+                scope.drawRange();
+                scope.search();
+
+
+            });
+        };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 0, lng: 0},
+            zoom: 1,
+            mapTypeId: 'roadmap'
+        });
+
+
+        if(location==null){
+
+            $.ajax({
+                url: "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCQkFuSKbvyTix13_ayOGWlgocObkPvt1U",
+                type: "POST"
+            }).done(function(response){
+                console.log("googlelocation request");
+                getLocation(response)
+            });
+        }else{
+            console.log("lastlocation ");
+
+            getLocation({location:location});
+        }
+
+
+
+        searchBox.addListener('places_changed', function () {
+            $('#contentWrap').removeClass("hide");
+
+
+            var places = searchBox.getPlaces();
+
+
+            if (places.length == 0) {
+                return;
+            } else {
+                window.places = places;
+                console.log(places);
+                console.log(places[0].geometry.location.lat());
+                console.log(places[0].geometry.location.lng());
+            }
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: places[0].geometry.location.lat(), lng: places[0].geometry.location.lng()},
+                zoom: 13,
+                mapTypeId: 'roadmap'
+            });
+
+            var marker = new google.maps.Marker({
+                position: {lat: places[0].geometry.location.lat(), lng: places[0].geometry.location.lng()},
+                map: map
+            });
+
+            window.markerCenter = marker;
+
+            window.map = map;
+            var scope = angular.element("#max-range").scope();
+
+            if(scope.request.range!=null){
+                console.log("DRAW RANGE PLACES")
+                scope.drawRange();
+
+            };
+
+        });
+    };
+    var getMap = function (opts) {
+            var src = "http://maps.googleapis.com/maps/api/staticmap?",
+                params = $.extend({
+                    zoom: 12,
+                    size: '200x200',
+                    maptype: 'roadmap',
+                    sensor: false
+                }, opts),
+                query = [];
+
+            $.each(params, function (k, v) {
+                query.push(k + '=' + encodeURIComponent(v));
+            });
+
+            src += query.join('&');
+            console.log(src);
+            return '<img src="' + src + '" />';
+        }
+
+        /*
+
+         $('#id-popover').popover(
+         {
+         html: true,
+         trigger: 'hover',
+         content:function () {
+         var input = document.getElementById('pet-location-input');
+         var content = getMap({center:input.value});
+         console.log(content);
+         return content;
+         }
+         });
+
+         */
+
+
+    ;</script>
+
+<div class="well center hide" id="pleaseWaitDialog" style="
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #222222;">
+    <h1 style="color:white">Buscando... </h1>
+    <img alt="loader" height="200px" width="300px" src="../images/hamster-loader.gif">
+</div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYTGDzYzyRVliXU2q-WRcP_fmnEmSKO8Y&libraries=places,geometry&callback=initAutocomplete"
+        async defer></script>
+
+

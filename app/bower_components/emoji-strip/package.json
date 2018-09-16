@@ -1,0 +1,97 @@
+{
+  "_args": [
+    [
+      "emoji-strip",
+      "/home/gabrieldyck/git-repo/marlin-fe"
+    ]
+  ],
+  "_from": "emoji-strip@latest",
+  "_id": "emoji-strip@1.0.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/emoji-strip",
+  "_nodeVersion": "7.5.0",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/emoji-strip-1.0.1.tgz_1489153609311_0.34193262620829046"
+  },
+  "_npmUser": {
+    "email": "khalifenizar@gmail.com",
+    "name": "khalifenizar"
+  },
+  "_npmVersion": "4.1.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "emoji-strip",
+    "raw": "emoji-strip",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/emoji-strip/-/emoji-strip-1.0.1.tgz",
+  "_shasum": "cf9390535044121888420ae4db436d03a6cc459d",
+  "_shrinkwrap": null,
+  "_spec": "emoji-strip",
+  "_where": "/home/gabrieldyck/git-repo/marlin-fe",
+  "author": {
+    "email": "khalifenizar@gmail.com",
+    "name": "Nizar Khalife Iglesias"
+  },
+  "bugs": {
+    "url": "https://github.com/khalifenizar/emoji-strip/issues"
+  },
+  "dependencies": {
+    "emoji-regex": "^6.1.3"
+  },
+  "description": "Strip emoji from a string in Node.js and browsers.",
+  "devDependencies": {
+    "standard": "^9.0.0",
+    "tape": "^4.6.3",
+    "uglify-js": "^2.8.6",
+    "webpack": "^2.2.1"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "cf9390535044121888420ae4db436d03a6cc459d",
+    "tarball": "https://registry.npmjs.org/emoji-strip/-/emoji-strip-1.0.1.tgz"
+  },
+  "gitHead": "edba1b287ac25cf3e1f5520712d198818efaaff8",
+  "homepage": "https://github.com/khalifenizar/emoji-strip",
+  "keywords": [
+    "emoji",
+    "emoticons",
+    "remove",
+    "strip"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "khalifenizar",
+      "email": "khalifenizar@gmail.com"
+    }
+  ],
+  "name": "emoji-strip",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khalifenizar/emoji-strip.git"
+  },
+  "scripts": {
+    "browser": "webpack index.js dist/emoji-strip.js --output-library=emojiStrip --output-library-target=window",
+    "build": "npm run browser && npm run min",
+    "min": "uglifyjs dist/emoji-strip.js --output=dist/emoji-strip.min.js --compress --mangle",
+    "test": "standard && node tests/emoji-strip.js"
+  },
+  "standard": {
+    "ignore": [
+      "dist/*"
+    ]
+  },
+  "version": "1.0.1"
+}
